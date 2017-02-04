@@ -1,20 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.zzj.login.mapper.LoginOrRegisterMapper">
-    <!-- 插入绑卡详情表 -->
- <!--   <insert id="insertBindcardDetail" parameterType="com.zhx.gateway.entity.BindcardDetail">
-        INSERT INTO gateway_order_bindcard_detail
-        (
-          gatewayOrderNo,returnUrl,notifyUrl,updateDate,createDate,merchantSendDate,status,
-          backOrderNo,uid,dfp
-        )
-        VALUES
-        (
-          #{gatewayOrderNo},#{returnUrl},#{notifyUrl},#{updateDate},#{createDate},#{merchantSendDate},
-          #{status},#{backOrderNo},#{uid},#{dfp}
-        )
-    </insert>
-
+<mapper namespace="com.zzj.loginorregister.mapper.LoginOrRegisterMapper">
+ <!--
     &lt;!&ndash; 更新绑卡状态&ndash;&gt;
     <update id="updateBindcardStatus" parameterType="com.zhx.gateway.entity.BindcardDetail">
         UPDATE gateway_order_bindcard_detail
@@ -40,5 +27,17 @@
         WHERE t.loginName=#{loginName}
         AND   t.status=#{status}
     </select>
+
+    <!-- 插入用户信息-->
+    <insert id="insertUserinfo" parameterType="java.util.HashMap">
+        INSERT INTO userinfo
+        (
+          nickName,createDate,status,loginName,userType
+        )
+        VALUES
+        (
+          #{nickName},#{createDate},#{status},#{loginName},#{userType}
+        )
+    </insert>
 
 </mapper>

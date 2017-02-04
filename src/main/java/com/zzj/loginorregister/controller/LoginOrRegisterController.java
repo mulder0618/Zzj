@@ -1,6 +1,6 @@
-package com.zzj.login.controller;
+package com.zzj.loginorregister.controller;
 
-import com.zzj.login.service.LoginOrRegisterService;
+import com.zzj.loginorregister.service.LoginOrRegisterService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -48,21 +48,39 @@ public class LoginOrRegisterController {
         else{
             result.put("result","success");
             result.put("msg","登录成功");
-            result.put("userinfo",userinfo);
+            //result.put("userinfo",userinfo);
         }
         return result;
     }
 
 
+    /**
+     * 注册接口
+     * @param loginName
+     * @param identifyingCode
+     * @param regType   1 技师 2 用户
+     * @param sign
+     * @param attr
+     * @param request
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping("/register")
     public Object register(
             @RequestParam(value = "loginName", required = true) String loginName,
             @RequestParam(value = "identifyingCode", required = true) String identifyingCode,
+            @RequestParam(value = "regType", required = true) String regType,
             @RequestParam(value = "sign", required = true) String sign,
             RedirectAttributes attr,
             HttpServletRequest request
     )throws Exception {
-
-        return null;
+        //Todo 校验短信验证码
+        //保存数据
+        loginOrRegisterService.setUserinfo(loginName,regType);
+        Map result = new HashMap();
+        result.put("result","success");
+        result.put("msg","注册成功");
+        return result;
     }
 
 

@@ -1,10 +1,10 @@
-package com.zzj.login.service;
+package com.zzj.loginorregister.service;
 
-import com.zzj.login.mapper.LoginOrRegisterMapper;
+import com.zzj.loginorregister.mapper.LoginOrRegisterMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.hash.HashMapper;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -29,4 +29,19 @@ public class LoginOrRegisterService {
         Map result = loginOrRegisterMapper.selectUserinfo(loginParam);
         return result;
     }
+
+    /**
+     * 插入用户信息
+     * @param loginName
+     * @param userType
+     */
+    public void setUserinfo(String loginName,String userType){
+        Map loginParam = new HashMap();
+        loginParam.put("loginName",loginName);
+        loginParam.put("status",1);
+        loginParam.put("createDate",new Date());
+        loginParam.put("userType",userType);
+        loginOrRegisterMapper.insertUserinfo(loginParam);
+    }
+
 }

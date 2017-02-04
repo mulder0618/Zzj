@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zzj.notice.mapper.NoticeMapper">
+
+    <!-- 查询公告-->
+    <select id="selectNotice" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+       select t.title,t.content from notice t where #{currentDate} BETWEEN t.startDate and t.endDate and t.`status` = #{status}
+    </select>
+
+    <!-- 插入公告-->
+    <insert id="insertNotice" parameterType="java.util.HashMap">
+        INSERT INTO notice
+        (
+          title,content,createDate,status,startDate,endDate
+        )
+        VALUES
+        (
+          #{title},#{content},#{createDate},#{status},#{startDate},#{endDate}
+        )
+    </insert>
+
+</mapper>

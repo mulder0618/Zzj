@@ -1,4 +1,4 @@
-package com.zzj.login.mapper;
+package com.zzj.loginorregister.mapper;
 
 import org.springframework.stereotype.Repository;
 
@@ -16,4 +16,10 @@ public interface LoginOrRegisterMapper {
      * @return
      */
     Map selectUserinfo(Map params);
+
+    /**
+     * 插入用户信息
+     * @param params
+     */
+    void insertUserinfo(Map params);
 }
