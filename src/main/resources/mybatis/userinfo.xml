@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zzj.userinfo.mapper.UserinfoMapper">
+
+    <!--更改用户信息-->
+    <update id="updateUserinfo" parameterType="java.util.HashMap">
+        UPDATE userinfo
+        <set>
+        <if test="status != null">
+            status = #{status},
+        </if>
+        <if test="nickName != null">
+            nickName = #{nickName},
+        </if>
+        <if test="level != null">
+            level = #{level},
+        </if>
+        <if test="userType != null">
+            userType = #{userType},
+        </if>
+        <if test="isRecommend != null">
+            isRecommend = #{isRecommend},
+        </if>
+        <if test="summary != null">
+            summary = #{summary},
+        </if>
+        <if test="headSculpture != null">
+            headSculpture = #{headSculpture},
+        </if>
+        <if test="sex != null">
+            sex = #{sex},
+        </if>
+        </set>
+        WHERE uuid=#{uuid}
+    </update>
+
+
+</mapper>
