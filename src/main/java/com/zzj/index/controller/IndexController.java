@@ -20,7 +20,14 @@ public class IndexController {
     @Autowired
     IndexService indexService;
 
-
+    /**
+     * 首页推荐技师
+     * @param size
+     * @param sign
+     * @param request
+     * @return
+     * @throws Exception
+     */
     @RequestMapping("/getRecommendTechs")
     public Object getRecommendTechs(
             @RequestParam(value = "size", required = true) int size,
@@ -32,6 +39,33 @@ public class IndexController {
         result.put("result","success");
         result.put("msg","查询首页推荐技师成功");
         result.put("data",recommendTechs);
+        return result;
+    }
+
+
+    /**
+     * 搜索技师
+     * @param currentPage
+     * @param size
+     * @param techName
+     * @param sign
+     * @param request
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping("/searchTechs")
+    public Object searchTechs(
+            @RequestParam(value = "currentPage", required = true) int currentPage,
+            @RequestParam(value = "size", required = true) int size,
+            @RequestParam(value = "techName", required = true) String techName,
+            @RequestParam(value = "sign", required = true) String sign,
+            HttpServletRequest request
+    ) throws Exception {
+        Map result = new HashMap();
+        List<Map> techs = indexService.getTechs(currentPage-1,size,techName);
+        result.put("result","success");
+        result.put("msg","搜索技师技师成功");
+        result.put("data",techs);
         return result;
     }
 

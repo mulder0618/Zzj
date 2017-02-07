@@ -4,7 +4,12 @@
 
     <!-- 查询首页推荐技师-->
     <select id="selectRecommendTechs" parameterType="java.util.HashMap" resultType="java.util.HashMap">
-       select * from userinfo t where  t.`status` = #{status} and t.isRecommend = 1 limit #{size}
+       select * from userinfo t where  t.`status` = #{status} and t.isRecommend = 1  and t.userType=1 limit #{size}
+    </select>
+
+    <!--搜索技师-->
+    <select id="selectTechs" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+        select * from userinfo t where  t.`status` = #{status} and t.nickName like  CONCAT('%',#{techName},'%')   and t.userType=1  limit #{currentPage},#{size}
     </select>
 
 </mapper>

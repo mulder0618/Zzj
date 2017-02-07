@@ -31,5 +31,22 @@ public class IndexService {
         return result;
     }
 
+    /**
+     * 查询技师
+     * @param currentPage
+     * @param size
+     * @param techName
+     * @return
+     */
+    public List<Map> getTechs(int currentPage,int size,String techName){
+        Map techsParam = new HashMap();
+        techsParam.put("size",size);
+        techsParam.put("currentPage",currentPage*size);
+        techsParam.put("status",1);
+        techsParam.put("techName",techName);
+        List<Map> result = indexMapper.selectTechs(techsParam);
+        return result;
+    }
+
 
 }

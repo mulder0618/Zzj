@@ -18,4 +18,12 @@ public interface IndexMapper {
      */
     List<Map> selectRecommendTechs(Map params);
 
+    /**
+     * 首页查询技师
+     * @param params
+     * @return
+     */
+    List<Map> selectTechs(Map params);
+
+
 }
