@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 /**
  * Created by mulder on 17/2/3.
@@ -41,6 +42,7 @@ public class LoginOrRegisterService {
         loginParam.put("status",1);
         loginParam.put("createDate",new Date());
         loginParam.put("userType",userType);
+        loginParam.put("uuid", UUID.randomUUID().toString());
         loginOrRegisterMapper.insertUserinfo(loginParam);
     }
 
