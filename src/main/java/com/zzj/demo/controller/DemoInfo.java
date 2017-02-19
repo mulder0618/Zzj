@@ -17,7 +17,7 @@ import java.util.Map;
  */
 @Controller
 public class DemoInfo {
-
+/*
     @Autowired
     MomentsRepository momentsRepository;
 
@@ -46,7 +46,16 @@ public class DemoInfo {
         return momentsRepository.findByOwner(moments.getOwner());
     }
 
-        @RequestMapping("/testmongoinsert")
+    public void testUpdate(){
+        Moments moments = momentsRepository.findByOwner("FFDS-11-HHH");
+        moments.setMessage("这是朋友圈更改1");
+        List<String> images = moments.getImages();
+        images.add("http://www.aa.com/c.jpg");
+        momentsRepository.save(moments);
+    }
+
+
+    @RequestMapping("/testmongoinsert")
     public String testmongo(){
         this.testInsert();
         return null;
@@ -59,5 +68,12 @@ public class DemoInfo {
         System.out.println(moments.toString());
         return null;
     }
+
+
+    @RequestMapping("/testmongoupdate")
+    public String testmongoupdate(){
+        this.testUpdate();
+        return null;
+    }*/
 
 }
