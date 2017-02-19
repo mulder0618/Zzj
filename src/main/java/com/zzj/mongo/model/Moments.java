@@ -2,6 +2,7 @@ package com.zzj.mongo.model;
 
 import org.springframework.data.annotation.Id;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -17,6 +18,8 @@ public class Moments {
     private String message;
 
     private List<Map> comment;
+
+    private Date createDate;
 
     public List<Map> getComment() {
         return comment;
@@ -56,6 +59,14 @@ public class Moments {
 
     public void setMessage(String message) {
         this.message = message;
+    }
+
+    public Date getCreateDate() {
+        return createDate;
+    }
+
+    public void setCreateDate(Date createDate) {
+        this.createDate = createDate;
     }
 
     @Override
