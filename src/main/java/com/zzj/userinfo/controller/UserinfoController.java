@@ -21,6 +21,22 @@ public class UserinfoController {
     UserinfoService userinfoService;
 
 
+    /**
+     * 新增用户
+     * @param uuid
+     * @param nickName
+     * @param status
+     * @param userType
+     * @param level
+     * @param isRecommend
+     * @param summary
+     * @param headSculpture
+     * @param sex
+     * @param sign
+     * @param request
+     * @return
+     * @throws Exception
+     */
     @RequestMapping("/setUserinfo")
     public Object setUserinfo(
             @RequestParam(value = "uuid", required = true) String uuid,
@@ -43,6 +59,51 @@ public class UserinfoController {
     }
 
 
+    /**
+     * 添加好友
+     * @param ownerUUID
+     * @param friendUUID
+     * @param sign
+     * @param request
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping("/addFriend")
+    public Object addFriend(
+            @RequestParam(value = "ownerUUID", required = true) String ownerUUID,
+            @RequestParam(value = "friendUUID", required = true) String friendUUID,
+            @RequestParam(value = "sign", required = true) String sign,
+            HttpServletRequest request
+    ) throws Exception {
+        Map result = new HashMap();
+        userinfoService.setAddFriend(ownerUUID,friendUUID);
+        result.put("result","success");
+        result.put("msg","添加好友成功");
+        return result;
+    }
+
+    /**
+     * 删除好友
+     * @param ownerUUID
+     * @param friendUUID
+     * @param sign
+     * @param request
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping("/delFriend")
+    public Object delFriend(
+            @RequestParam(value = "ownerUUID", required = true) String ownerUUID,
+            @RequestParam(value = "friendUUID", required = true) String friendUUID,
+            @RequestParam(value = "sign", required = true) String sign,
+            HttpServletRequest request
+    ) throws Exception {
+        Map result = new HashMap();
+        Map operResult = userinfoService.setDelFriend(ownerUUID,friendUUID);
+        result.put("result",operResult.get("result"));
+        result.put("msg",operResult.get("msg"));
+        return result;
+    }
 
 
 }
