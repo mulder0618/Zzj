@@ -10,6 +10,8 @@ import org.springframework.data.mongodb.repository.MongoRepository;
  */
 public interface MomentsRepository extends MongoRepository<Moments, String> {
 
+    Moments findById(String id);
+
     Moments findByOwner(String owner);
 
 }

@@ -36,6 +36,24 @@ public class MomentsService {
         momentsRepository.insert(moments);
     }
 
+
+    public void setMomentComment(String id,String ownerUUID,String friendUUID,String message){
+        Moments moments = momentsRepository.findById(id);
+        List<Map> comments = moments.getComments();
+        if(comments==null){
+            comments = new ArrayList<Map>();
+        }
+        Map comment = new LinkedHashMap();
+        //直接回复
+        comment.put("ownerUUID",ownerUUID);
+        comment.put("friendUUID",friendUUID);
+        comment.put("message",message);
+        comment.put("commentID",UUID.randomUUID());
+        comments.add(comment);
+        moments.setComments(comments);
+        momentsRepository.save(moments);
+    }
+
     /**
      * 获取所有朋友圈数据
      * @param page

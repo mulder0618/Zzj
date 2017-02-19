@@ -46,6 +46,23 @@ public class MomentsController {
     }
 
 
+    @RequestMapping("/sendComment")
+    public Object sendComment(
+            @RequestParam(value = "id", required = true) String id,
+            @RequestParam(value = "ownerUUID", required = true) String ownerUUID,
+            @RequestParam(value = "friendUUID", required = false) String friendUUID,
+            @RequestParam(value = "message", required = true) String message,
+            @RequestParam(value = "sign", required = true) String sign,
+            HttpServletRequest request
+    ) throws Exception {
+        Map result = new HashMap();
+        momentsService.setMomentComment(id,ownerUUID,friendUUID,message);
+        result.put("result","success");
+        result.put("msg","发表朋友圈评论成功");
+        return result;
+    }
+
+
     /**
      * 获取所有朋友圈内容
      * @param page
