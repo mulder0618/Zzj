@@ -113,12 +113,16 @@ public class MomentsService {
                 momentMap.put("createDate",moment.getCreateDate());
                 Map commentsMap = new HashMap();
                 String momentID = moment.getId();
-                Comments comments = commentsRepository.findByUserUUIDAndMomentsID(userUUID,momentID);
-                if(comments!=null){
-                    commentsMap.put("commenterUUID",comments.getCommenterUUID());
-                    commentsMap.put("targetCommenterUUID",comments.getTargetCommentUUID());
-                    commentsMap.put("message",comments.getMessage());
-                    momentMap.put("comments",commentsMap);
+                List<Comments> commentes = commentsRepository.findByUserUUIDAndMomentsID(userUUID,momentID);
+                if(commentes.size()!=0){
+                    List<Map> commentsList = new ArrayList<>();
+                    for(Comments comments:commentes){
+                        commentsMap.put("commenterUUID",comments.getCommenterUUID());
+                        commentsMap.put("targetCommenterUUID",comments.getTargetCommentUUID());
+                        commentsMap.put("message",comments.getMessage());
+                        commentsList.add(commentsMap);
+                    }
+                    momentMap.put("comments",commentsList);
                 }
                 momentsList.add(momentMap);
             }
