@@ -17,17 +17,7 @@ public class Moments {
 
     private String message;
 
-    private List<Map> comments;
-
     private Date createDate;
-
-    public List<Map> getComments() {
-        return comments;
-    }
-
-    public void setComments(List<Map> comments) {
-        this.comments = comments;
-    }
 
     public String getId() {
         return id;
@@ -76,7 +66,6 @@ public class Moments {
                 ", owner='" + owner + '\'' +
                 ", images=" + images +
                 ", message='" + message + '\'' +
-                ", comments=" + comments +
                 '}';
     }
 }
