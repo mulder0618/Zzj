@@ -87,7 +87,7 @@ public class MomentsController {
      * @return
      * @throws Exception
      */
-    @RequestMapping("/getMomentComments")
+  /*  @RequestMapping("/getMomentComments")
     public Object getMomentComments(
             @RequestParam(value = "userUUID", required = true) String userUUID,
             @RequestParam(value = "momentsID", required = true) String momentsID,
@@ -102,7 +102,7 @@ public class MomentsController {
             result.put("data", comments);
         }
         return result;
-    }
+    }*/
 
     /**
      * 获取所有朋友圈内容
@@ -116,16 +116,17 @@ public class MomentsController {
      */
     @RequestMapping("/getAllMoment")
     public Object getAllMoment(
+            @RequestParam(value = "userUUID", required = true) String userUUID,
             @RequestParam(value = "page", required = true) int page,
             @RequestParam(value = "rows", required = true) int rows,
             @RequestParam(value = "sign", required = true) String sign,
             HttpServletRequest request
     ) throws Exception {
         Map result = new HashMap();
-        Page<Moments>  momentses =  momentsService.queryAllMomentsByPage(page,rows);
+        List<Map>  momentses =  momentsService.queryAllMomentsByPage(userUUID,page,rows);
         result.put("result","success");
         result.put("msg","查询朋友圈成功");
-        result.put("data",momentses.getContent());
+        result.put("data",momentses);
         return result;
     }
 

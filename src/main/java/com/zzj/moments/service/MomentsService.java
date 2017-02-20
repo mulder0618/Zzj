@@ -60,7 +60,15 @@ public class MomentsService {
         //查找好友交集
         Friendship ownerFriends = friendshipRepository.findByOwner(ownerUUID);
         Friendship commenterFriends = friendshipRepository.findByOwner(commenterUUID);
-        Set intersectionFriends = MapUtils.intersection(ownerFriends.getFriends(),commenterFriends.getFriends());
+        Set intersectionFriends = null;
+        //如果没有评论的评论者 则进行两个交集判断 如果有则在三个人内判断
+        if(tragetCommenterUUID==null||"".equals(tragetCommenterUUID)){
+            intersectionFriends = MapUtils.intersection2(ownerFriends.getFriends(),commenterFriends.getFriends());
+        }
+        else{
+            Friendship targetFriends = friendshipRepository.findByOwner(tragetCommenterUUID);
+            intersectionFriends = MapUtils.intersection3(ownerFriends.getFriends(),commenterFriends.getFriends(),targetFriends.getFriends());
+        }
         Comments comments = new Comments();
         comments.setUserUUID(intersectionFriends);
         comments.setMomentsID(mementsID);
@@ -79,10 +87,10 @@ public class MomentsService {
      * @return
      * @throws Exception
      */
-    public Comments queryMomentsComments(String userUUID, String momentsID) throws Exception {
+   /* public Comments queryMomentsComments(String userUUID, String momentsID) throws Exception {
         Comments comments = commentsRepository.findByUserUUIDAndMomentsID(userUUID,momentsID);
         return comments;
-    }
+    }*/
 
     /**
      * 获取所有朋友圈数据
@@ -91,9 +99,31 @@ public class MomentsService {
      * @return
      * @throws Exception
      */
-    public Page<Moments> queryAllMomentsByPage(int page, int rows) throws Exception {
+    public List<Map> queryAllMomentsByPage(String userUUID,int page, int rows) throws Exception {
+        List<Map> momentsList = new ArrayList<>();
         PageRequest pageRequest = new PageRequest(page-1,rows,new Sort(Sort.Direction.DESC, "createDate"));
-        return momentsRepository.findAll(pageRequest);
+        Page<Moments>  momentses =  momentsRepository.findAll(pageRequest);
+        if(momentses!=null){
+            for(Moments moment:momentses ){
+                Map momentMap = new HashMap();
+                momentMap.put("momentsID",moment.getId());
+                momentMap.put("photos",moment.getImages());
+                momentMap.put("message",moment.getMessage());
+                momentMap.put("momentOwner",moment.getOwner());
+                momentMap.put("createDate",moment.getCreateDate());
+                Map commentsMap = new HashMap();
+                String momentID = moment.getId();
+                Comments comments = commentsRepository.findByUserUUIDAndMomentsID(userUUID,momentID);
+                if(comments!=null){
+                    commentsMap.put("commenterUUID",comments.getCommenterUUID());
+                    commentsMap.put("targetCommenterUUID",comments.getTargetCommentUUID());
+                    commentsMap.put("message",comments.getMessage());
+                    momentMap.put("comments",commentsMap);
+                }
+                momentsList.add(momentMap);
+            }
+        }
+        return momentsList;
     }
 
 
