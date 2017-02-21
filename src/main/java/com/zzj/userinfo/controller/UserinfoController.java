@@ -54,9 +54,10 @@ public class UserinfoController {
             HttpServletRequest request
     ) throws Exception {
         Map result = new HashMap();
-        int userUpdateresult = userinfoService.updateUserinfo(uuid,nickName,status,userType,level,isRecommend,summary,headSculpture,sex);
+        Map userUpdateresult = userinfoService.updateUserinfo(uuid,nickName,status,userType,level,isRecommend,summary,headSculpture,sex);
         result.put("result","success");
         result.put("msg","更新用户信息成功");
+        result.put("data",userUpdateresult);
         return result;
     }
 

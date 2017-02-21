@@ -47,7 +47,7 @@ public class UserinfoService {
      * @param sex
      * @return
      */
-    public int updateUserinfo(String uuid, String nickName, String status, String userType, String level, Object isRecommend, String summary, MultipartFile headSculpture, String sex){
+    public Map updateUserinfo(String uuid, String nickName, String status, String userType, String level, Object isRecommend, String summary, MultipartFile headSculpture, String sex){
         //上传头像图片
         String headurlPath = null;
         if(headSculpture!=null){
@@ -70,7 +70,6 @@ public class UserinfoService {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-
         }
         Map userinfoParam = new HashMap();
         userinfoParam.put("nickName",nickName);
@@ -83,7 +82,7 @@ public class UserinfoService {
         userinfoParam.put("sex",sex);
         userinfoParam.put("uuid",uuid);
         int result = userinfoMapper.updateUserinfo(userinfoParam);
-        return result;
+        return userinfoParam;
     }
 
     /**
