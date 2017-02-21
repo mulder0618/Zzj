@@ -76,4 +76,9 @@ public class DemoInfo {
         return null;
     }*/
 
+
+    @RequestMapping("/testsingeupload")
+    public String testsingeupload() {
+        return "test/upload";
+    }
 }

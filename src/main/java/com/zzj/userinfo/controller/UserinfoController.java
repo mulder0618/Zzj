@@ -3,8 +3,10 @@ package com.zzj.userinfo.controller;
 import com.zzj.userinfo.service.UserinfoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
@@ -37,7 +39,7 @@ public class UserinfoController {
      * @return
      * @throws Exception
      */
-    @RequestMapping("/setUserinfo")
+    @RequestMapping(value = "/setUserinfo", method= RequestMethod.POST)
     public Object setUserinfo(
             @RequestParam(value = "uuid", required = true) String uuid,
             @RequestParam(value = "nickName", required = false) String nickName,
@@ -46,7 +48,7 @@ public class UserinfoController {
             @RequestParam(value = "level", required = false) String level,
             @RequestParam(value = "isRecommend", required = false) String isRecommend,
             @RequestParam(value = "summary", required = false) String summary,
-            @RequestParam(value = "headSculpture", required = false) String headSculpture,
+            @RequestParam(value = "headSculpture",required = false) MultipartFile headSculpture,
             @RequestParam(value = "sex", required = false) String sex,
             @RequestParam(value = "sign", required = true) String sign,
             HttpServletRequest request

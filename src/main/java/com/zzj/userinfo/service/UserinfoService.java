@@ -6,8 +6,15 @@ import com.zzj.mongo.repository.FriendshipRepository;
 import com.zzj.mongo.repository.MomentsRepository;
 import com.zzj.userinfo.mapper.UserinfoMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
@@ -19,10 +26,14 @@ public class UserinfoService {
     @Autowired
     private UserinfoMapper userinfoMapper;
 
-
     @Autowired
     FriendshipRepository friendshipRepository;
 
+    @Value("${imgsavepath}")
+    private String imgsavepath;
+
+    @Value("${headurl}")
+    private String headurl;
 
     /**
      * 更新用户信息
@@ -36,7 +47,31 @@ public class UserinfoService {
      * @param sex
      * @return
      */
-    public int updateUserinfo(String uuid,String nickName, String status, String userType, String level, Object isRecommend, String summary, String headSculpture, String sex){
+    public int updateUserinfo(String uuid, String nickName, String status, String userType, String level, Object isRecommend, String summary, MultipartFile headSculpture, String sex){
+        //上传头像图片
+        String headurlPath = null;
+        if(headSculpture!=null){
+            byte[] bytes = new byte[0];
+            try {
+                bytes = headSculpture.getBytes();
+                String headName = uuid+"-head.jpg";
+                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMdd");
+                String datepackageName = simpleDateFormat.format(new Date());
+                headurlPath = headurl + datepackageName+"/"+headName;
+                File dest = new File(imgsavepath+datepackageName+"/"+headName);
+                // 检测是否存在目录
+                if (!dest.getParentFile().exists()) {
+                    dest.getParentFile().mkdirs();
+                }
+                BufferedOutputStream stream =
+                        new BufferedOutputStream(new FileOutputStream(dest));
+                stream.write(bytes);
+                stream.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+        }
         Map userinfoParam = new HashMap();
         userinfoParam.put("nickName",nickName);
         userinfoParam.put("status",status);
@@ -44,7 +79,7 @@ public class UserinfoService {
         userinfoParam.put("level",level);
         userinfoParam.put("isRecommend",isRecommend);
         userinfoParam.put("summary",summary);
-        userinfoParam.put("headSculpture",headSculpture);
+        userinfoParam.put("headSculpture",headurlPath);
         userinfoParam.put("sex",sex);
         userinfoParam.put("uuid",uuid);
         int result = userinfoMapper.updateUserinfo(userinfoParam);
