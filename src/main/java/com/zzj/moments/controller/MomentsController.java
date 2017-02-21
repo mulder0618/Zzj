@@ -123,7 +123,7 @@ public class MomentsController {
             HttpServletRequest request
     ) throws Exception {
         Map result = new HashMap();
-        List<Map>  momentses =  momentsService.queryAllMomentsByPage(userUUID,page,rows);
+        Map  momentses =  momentsService.queryAllMomentsByPage(userUUID,page,rows);
         result.put("result","success");
         result.put("msg","查询朋友圈成功");
         result.put("data",momentses);

@@ -99,10 +99,12 @@ public class MomentsService {
      * @return
      * @throws Exception
      */
-    public List<Map> queryAllMomentsByPage(String userUUID,int page, int rows) throws Exception {
+    public Map queryAllMomentsByPage(String userUUID,int page, int rows) throws Exception {
         List<Map> momentsList = new ArrayList<>();
         PageRequest pageRequest = new PageRequest(page-1,rows,new Sort(Sort.Direction.DESC, "createDate"));
         Page<Moments>  momentses =  momentsRepository.findAll(pageRequest);
+        Map pageInfo = new HashMap();
+        pageInfo.put("total",momentses.getTotalPages());
         if(momentses!=null){
             for(Moments moment:momentses ){
                 Map momentMap = new HashMap();
@@ -127,7 +129,8 @@ public class MomentsService {
                 momentsList.add(momentMap);
             }
         }
-        return momentsList;
+        pageInfo.put("list",momentsList);
+        return pageInfo;
     }
 
 
