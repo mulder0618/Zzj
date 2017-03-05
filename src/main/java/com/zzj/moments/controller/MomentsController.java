@@ -8,6 +8,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
@@ -37,13 +38,15 @@ public class MomentsController {
     public Object sendMoment(
             @RequestParam(value = "owner", required = true) String owner,
             @RequestParam(value = "message", required = true) String message,
+            @RequestParam(value = "photos", required = true)  MultipartFile[] photos,
             @RequestParam(value = "sign", required = true) String sign,
             HttpServletRequest request
     ) throws Exception {
         Map result = new HashMap();
-        momentsService.setMoment(owner,message);
+        Moments moments = momentsService.setMoment(owner,message,photos);
         result.put("result","success");
         result.put("msg","发表朋友圈成功");
+        result.put("data",moments);
         return result;
     }
 

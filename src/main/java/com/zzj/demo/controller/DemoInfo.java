@@ -81,4 +81,5 @@ public class DemoInfo {
     public String testsingeupload() {
         return "test/upload";
     }
+
 }

@@ -47,7 +47,15 @@ public class UserinfoService {
      * @param sex
      * @return
      */
-    public Map updateUserinfo(String uuid, String nickName, String status, String userType, String level, Object isRecommend, String summary, MultipartFile headSculpture, String sex){
+    public Map updateUserinfo(String uuid,
+                              String nickName,
+                              String status,
+                              String userType,
+                              String level,
+                              Object isRecommend,
+                              String summary,
+                              MultipartFile headSculpture,
+                              String sex){
         //上传头像图片
         String headurlPath = null;
         if(headSculpture!=null){

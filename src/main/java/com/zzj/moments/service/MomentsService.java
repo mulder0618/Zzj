@@ -1,5 +1,6 @@
 package com.zzj.moments.service;
 
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.zzj.moments.mapper.MomentsMapper;
 import com.zzj.mongo.model.Comments;
 import com.zzj.mongo.model.Friendship;
@@ -9,11 +10,18 @@ import com.zzj.mongo.repository.FriendshipRepository;
 import com.zzj.mongo.repository.MomentsRepository;
 import com.zzj.utils.MapUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
@@ -34,17 +42,55 @@ public class MomentsService {
     @Autowired
     FriendshipRepository friendshipRepository;
 
+    @Value("${momentsphotosavepath}")
+    private String momentsphotosavepath;
+
+
+    @Value("${momentsphotourl}")
+    private String momentsphotourl;
+
     /**
      * 发表朋友圈
      * @param owner
      * @param message
      */
-    public void setMoment(String owner,String message){
+    public Moments setMoment(String owner,
+                          String message,
+                          MultipartFile[] photos
+    ){
+        String headurlPath = null;
+        List<String> photoShowList = new ArrayList<>();
+        if(photos.length!=0){
+            for(MultipartFile photo:photos){
+                byte[] bytes = new byte[0];
+                try {
+                    bytes = photo.getBytes();
+                    Date now = new Date();
+                    String headName = UUID.randomUUID()+"-"+owner+".jpg";
+                    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMdd");
+                    String datepackageName = simpleDateFormat.format(now);
+                    headurlPath = momentsphotourl + datepackageName+"/"+headName;
+                    photoShowList.add(headurlPath);
+                    File dest = new File(momentsphotosavepath+datepackageName+"/"+headName);
+                    // 检测是否存在目录
+                    if (!dest.getParentFile().exists()) {
+                        dest.getParentFile().mkdirs();
+                    }
+                    BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(dest));
+                    stream.write(bytes);
+                    stream.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
         Moments moments = new Moments();
         moments.setOwner(owner);
         moments.setMessage(message);
+        moments.setImages(photoShowList);
         moments.setCreateDate(new Date());
         momentsRepository.insert(moments);
+        return moments;
     }
 
 
