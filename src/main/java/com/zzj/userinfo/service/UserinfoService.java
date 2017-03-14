@@ -5,6 +5,11 @@ import com.zzj.mongo.model.Moments;
 import com.zzj.mongo.repository.FriendshipRepository;
 import com.zzj.mongo.repository.MomentsRepository;
 import com.zzj.userinfo.mapper.UserinfoMapper;
+import com.zzj.utils.chat.ClientContext;
+import com.zzj.utils.chat.EasemobRestAPIFactory;
+import com.zzj.utils.chat.api.IMUserAPI;
+import com.zzj.utils.chat.comm.body.IMUserBody;
+import com.zzj.utils.chat.comm.wrapper.BodyWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -112,6 +117,11 @@ public class UserinfoService {
             friends.add(friendUUID);
         }
         friendshipRepository.save(friendship);
+
+        //添加环信好友
+        EasemobRestAPIFactory factory = ClientContext.getInstance().init(ClientContext.INIT_FROM_PROPERTIES).getAPIFactory();
+        IMUserAPI user = (IMUserAPI)factory.newInstance(EasemobRestAPIFactory.USER_CLASS);
+        user.addFriendSingle(ownerUUID,friendUUID);
     }
 
     /**

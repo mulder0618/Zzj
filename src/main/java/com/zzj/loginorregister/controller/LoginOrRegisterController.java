@@ -76,10 +76,11 @@ public class LoginOrRegisterController {
     )throws Exception {
         //Todo 校验短信验证码
         //保存数据
-        loginOrRegisterService.setUserinfo(loginName,regType);
+        Map loginResult = loginOrRegisterService.setUserinfo(loginName,regType);
         Map result = new HashMap();
         result.put("result","success");
         result.put("msg","注册成功");
+        result.put("data",loginResult);
         return result;
     }
 
