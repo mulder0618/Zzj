@@ -78,9 +78,15 @@ public class LoginOrRegisterController {
         //保存数据
         Map loginResult = loginOrRegisterService.setUserinfo(loginName,regType);
         Map result = new HashMap();
-        result.put("result","success");
-        result.put("msg","注册成功");
-        result.put("data",loginResult);
+        if(loginResult.get("operateStatus").equals("success")){
+            result.put("result","success");
+            result.put("msg","注册成功");
+            result.put("data",loginResult);
+        }
+        else{
+            result.put("result","error");
+            result.put("msg",loginResult.get("msg"));
+        }
         return result;
     }
 

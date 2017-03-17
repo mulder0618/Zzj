@@ -1,6 +1,9 @@
 package com.zzj.loginorregister.service;
 
+import com.mysql.jdbc.exceptions.jdbc4.MySQLDataException;
+import com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException;
 import com.zzj.loginorregister.mapper.LoginOrRegisterMapper;
+import com.zzj.utils.UUIDUtils;
 import com.zzj.utils.chat.ClientContext;
 import com.zzj.utils.chat.EasemobRestAPIFactory;
 import com.zzj.utils.chat.api.IMUserAPI;
@@ -9,6 +12,7 @@ import com.zzj.utils.chat.comm.wrapper.BodyWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -43,18 +47,31 @@ public class LoginOrRegisterService {
      */
     public Map setUserinfo(String loginName,String userType){
         Map loginParam = new HashMap();
-        String userUUID =  UUID.randomUUID().toString();
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("ss");
+        String second = simpleDateFormat.format(new Date());
+        String userUUID = UUIDUtils.generateShortUuid()+second;
         loginParam.put("loginName",loginName);
         loginParam.put("status",1);
         loginParam.put("createDate",new Date());
         loginParam.put("userType",userType);
         loginParam.put("uuid",userUUID);
-        loginOrRegisterMapper.insertUserinfo(loginParam);
+        try {
+            loginOrRegisterMapper.insertUserinfo(loginParam);
+        }
+        catch(Exception e){
+            //用户名重复错误
+            if(e.getMessage().contains("loginName_unique")){
+                loginParam.put("operateStatus","error");
+                loginParam.put("msg","用户名已经注册");
+            }
+            return loginParam;
+        }
         //注册环信
         EasemobRestAPIFactory factory = ClientContext.getInstance().init(ClientContext.INIT_FROM_PROPERTIES).getAPIFactory();
         IMUserAPI user = (IMUserAPI)factory.newInstance(EasemobRestAPIFactory.USER_CLASS);
         BodyWrapper userBody = new IMUserBody(userUUID, "123456", "");
         user.createNewIMUserSingle(userBody);
+        loginParam.put("operateStatus","success");
         return  loginParam;
     }
 

@@ -114,7 +114,11 @@ public class MomentsService {
         else{
             Friendship targetFriends = friendshipRepository.findByOwner(tragetCommenterUUID);
             intersectionFriends = MapUtils.intersection3(ownerFriends.getFriends(),commenterFriends.getFriends(),targetFriends.getFriends());
+            intersectionFriends.add(tragetCommenterUUID);
         }
+        //交集中不会有自己和评论人需要添加
+        intersectionFriends.add(ownerUUID);
+        intersectionFriends.add(commenterUUID);
         Comments comments = new Comments();
         comments.setUserUUID(intersectionFriends);
         comments.setMomentsID(mementsID);
@@ -139,18 +143,13 @@ public class MomentsService {
     }*/
 
     /**
-     * 获取所有朋友圈数据
-     * @param page
-     * @param rows
+     * 填充朋友圈信息,评论信息
+     * @param momentses
+     * @param userUUID
      * @return
-     * @throws Exception
      */
-    public Map queryAllMomentsByPage(String userUUID,int page, int rows) throws Exception {
+    public List<Map> setMoments(Page<Moments>  momentses ,String userUUID){
         List<Map> momentsList = new ArrayList<>();
-        PageRequest pageRequest = new PageRequest(page-1,rows,new Sort(Sort.Direction.DESC, "createDate"));
-        Page<Moments>  momentses =  momentsRepository.findAll(pageRequest);
-        Map pageInfo = new HashMap();
-        pageInfo.put("total",momentses.getTotalPages());
         if(momentses!=null){
             for(Moments moment:momentses ){
                 Map momentMap = new HashMap();
@@ -161,6 +160,7 @@ public class MomentsService {
                 momentMap.put("createDate",moment.getCreateDate());
                 Map commentsMap = new HashMap();
                 String momentID = moment.getId();
+                //从可见用户交集中取数据 没有则不显示
                 List<Comments> commentes = commentsRepository.findByUserUUIDAndMomentsID(userUUID,momentID);
                 if(commentes.size()!=0){
                     List<Map> commentsList = new ArrayList<>();
@@ -175,9 +175,41 @@ public class MomentsService {
                 momentsList.add(momentMap);
             }
         }
-        pageInfo.put("list",momentsList);
+        return momentsList;
+    }
+
+    /**
+     * 获取所有朋友圈数据
+     * @param page
+     * @param rows
+     * @return
+     * @throws Exception
+     */
+    public Map queryAllMomentsByPage(String userUUID,int page, int rows) throws Exception {
+        PageRequest pageRequest = new PageRequest(page-1,rows,new Sort(Sort.Direction.DESC, "createDate"));
+        Page<Moments>  momentses =  momentsRepository.findAll(pageRequest);
+        Map pageInfo = new HashMap();
+        pageInfo.put("total",momentses.getTotalPages());
+        pageInfo.put("list", setMoments(momentses,userUUID));
         return pageInfo;
     }
 
+
+    /**
+     * 查询当前用户的朋友圈
+     * @param userUUID
+     * @param page
+     * @param rows
+     * @return
+     * @throws Exception
+     */
+    public Map queryUserMomentsByPage(String userUUID,int page, int rows) throws Exception {
+        PageRequest pageRequest = new PageRequest(page-1,rows,new Sort(Sort.Direction.DESC, "createDate"));
+        Page<Moments>  momentses =  momentsRepository.findByOwner(userUUID,pageRequest);
+        Map pageInfo = new HashMap();
+        pageInfo.put("total",momentses.getTotalPages());
+        pageInfo.put("list",setMoments(momentses,userUUID));
+        return pageInfo;
+    }
 
 }

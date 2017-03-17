@@ -134,4 +134,30 @@ public class MomentsController {
     }
 
 
+    /**
+     * 查询我的朋友圈
+     * @param userUUID
+     * @param page
+     * @param rows
+     * @param sign
+     * @param request
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping("/getUserMoment")
+    public Object getUserMoment(
+            @RequestParam(value = "userUUID", required = true) String userUUID,
+            @RequestParam(value = "page", required = true) int page,
+            @RequestParam(value = "rows", required = true) int rows,
+            @RequestParam(value = "sign", required = true) String sign,
+            HttpServletRequest request
+    ) throws Exception {
+        Map result = new HashMap();
+        Map momentses =  momentsService.queryUserMomentsByPage(userUUID,page,rows);
+        result.put("result","success");
+        result.put("msg","查询我的朋友圈成功");
+        result.put("data",momentses);
+        return result;
+    }
+
 }

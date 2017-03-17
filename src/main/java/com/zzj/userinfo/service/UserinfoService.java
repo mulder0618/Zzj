@@ -99,24 +99,43 @@ public class UserinfoService {
     }
 
     /**
+     * 添加好友模块
+     * @param uuid1         添加人
+     * @param uuid2         被添加人
+     * @param friendship    添加人好友关系
+     * @return
+     */
+    private Friendship setFriendShip(String uuid1,String uuid2,Friendship friendship){
+        //第一次加好友
+        if(friendship == null){
+            friendship = new Friendship();
+            friendship.setOwner(uuid1);
+            Set<String> friends = new HashSet();
+            friends.add(uuid2);
+            friendship.setFriends(friends);
+        }
+        else{   //非第一次添加 增量更新
+            Set<String> friends = friendship.getFriends();
+            friends.add(uuid2);
+        }
+        return friendship;
+    }
+
+    /**
      * 添加好友
      * @param ownerUUID
      * @param friendUUID
      */
     public void setAddFriend(String ownerUUID,String friendUUID){
-        Friendship friendship = friendshipRepository.findByOwner(ownerUUID);
-        if(friendship == null){
-            friendship = new Friendship();
-            friendship.setOwner(ownerUUID);
-            Set<String> friends = new HashSet();
-            friends.add(friendUUID);
-            friendship.setFriends(friends);
-        }
-        else{
-            Set<String> friends = friendship.getFriends();
-            friends.add(friendUUID);
-        }
-        friendshipRepository.save(friendship);
+        //当前用户添加
+        Friendship friendship1 = friendshipRepository.findByOwner(ownerUUID);
+        friendship1 = setFriendShip(ownerUUID,friendUUID,friendship1);
+        friendshipRepository.save(friendship1);
+
+        //被添加用户也添加关系
+        Friendship friendship2 = friendshipRepository.findByOwner(friendUUID);
+        friendship2 = setFriendShip(friendUUID,ownerUUID,friendship2);
+        friendshipRepository.save(friendship2);
 
         //添加环信好友
         EasemobRestAPIFactory factory = ClientContext.getInstance().init(ClientContext.INIT_FROM_PROPERTIES).getAPIFactory();
