@@ -190,4 +190,19 @@ public class UserinfoService {
         return userinfoMapper.getMyFriendship(myFriendship);
     }
 
+
+    /**
+     * 查找好友
+     * @param searchTitle
+     * @return
+     */
+    public List<Map> searchFriend(String searchTitle){
+        Map search = new HashMap();
+        search.put("nikcName",searchTitle);
+        search.put("loginName",searchTitle);
+        return userinfoMapper.searchFriend(search);
+    }
+
+
+
 }

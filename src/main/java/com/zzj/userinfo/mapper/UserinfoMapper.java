@@ -32,4 +32,12 @@ public interface UserinfoMapper {
      * @return
      */
     List<Map> getMyFriendship(Map params);
+
+    /**
+     * 查找好友
+     * @param params
+     * @return
+     */
+    List<Map> searchFriend(Map params);
+
 }

@@ -9,7 +9,7 @@
 
     <!--搜索技师-->
     <select id="selectTechs" parameterType="java.util.HashMap" resultType="java.util.HashMap">
-        select * from userinfo t where  t.`status` = #{status} and t.nickName like  CONCAT('%',#{techName},'%')   and t.userType=1  limit #{currentPage},#{size}
+        select * from userinfo t where  t.`status` = #{status} and t.nickName like  CONCAT('%',#{techName},'%') or loginName like  CONCAT('%',#{techName},'%')   and t.userType=1  limit #{currentPage},#{size}
     </select>
 
 </mapper>

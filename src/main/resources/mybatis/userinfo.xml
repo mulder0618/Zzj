@@ -43,4 +43,11 @@
     <select id="getMyFriendship" parameterType="java.util.HashMap" resultType="java.util.HashMap">
         select t1.`nickName`,t1.uuid,t1.`headSculpture` from userinfo t1 where t1.`uuid` in (select t.friend from friendship t where t.owner=#{owner})
     </select>
+
+
+    <!--查找好友列表-->
+    <select id="searchFriend" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+        select t.uuid ,t.`nickName`, t.`headSculpture` from userinfo t where t.`nickName` like CONCAT('%',#{nikcName},'%')  or t.`loginName`  like CONCAT('%',#{loginName},'%')
+    </select>
+
 </mapper>

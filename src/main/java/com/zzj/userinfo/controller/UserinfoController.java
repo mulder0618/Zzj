@@ -110,6 +110,28 @@ public class UserinfoController {
 
 
     /**
+     * 查找朋友
+     * @param searchTitle
+     * @param sign
+     * @param request
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping("/searchFriend")
+    public Object searchFriend(
+            @RequestParam(value = "searchTitle", required = true) String searchTitle,
+            @RequestParam(value = "sign", required = true) String sign,
+            HttpServletRequest request
+    ) throws Exception {
+        Map result = new HashMap();
+        List<Map> searchResult = userinfoService.searchFriend(searchTitle);
+        result.put("result","success");
+        result.put("data",searchResult);
+        return result;
+    }
+
+
+    /**
      * 获取我的好友列表
      * @param ownerUUID
      * @param sign
@@ -129,5 +151,6 @@ public class UserinfoController {
         result.put("data",myFriendship);
         return result;
     }
+
 
 }
