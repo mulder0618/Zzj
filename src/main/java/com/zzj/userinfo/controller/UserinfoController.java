@@ -109,4 +109,25 @@ public class UserinfoController {
     }
 
 
+    /**
+     * 获取我的好友列表
+     * @param ownerUUID
+     * @param sign
+     * @param request
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping("/getMyFriendship")
+    public Object getMyFriendship(
+            @RequestParam(value = "ownerUUID", required = true) String ownerUUID,
+            @RequestParam(value = "sign", required = true) String sign,
+            HttpServletRequest request
+    ) throws Exception {
+        Map result = new HashMap();
+        List<Map> myFriendship = userinfoService.getMyFriendship(ownerUUID);
+        result.put("result","success");
+        result.put("data",myFriendship);
+        return result;
+    }
+
 }

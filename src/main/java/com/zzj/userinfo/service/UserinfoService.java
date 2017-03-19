@@ -127,6 +127,7 @@ public class UserinfoService {
      * @param friendUUID
      */
     public void setAddFriend(String ownerUUID,String friendUUID){
+        //------mongodb   部分
         //当前用户添加
         Friendship friendship1 = friendshipRepository.findByOwner(ownerUUID);
         friendship1 = setFriendShip(ownerUUID,friendUUID,friendship1);
@@ -136,6 +137,17 @@ public class UserinfoService {
         Friendship friendship2 = friendshipRepository.findByOwner(friendUUID);
         friendship2 = setFriendShip(friendUUID,ownerUUID,friendship2);
         friendshipRepository.save(friendship2);
+
+        //-------mysql 部分
+        //当前用户添加
+        Map mysqlFriendship = new HashMap();
+        mysqlFriendship.put("owner",ownerUUID);
+        mysqlFriendship.put("friend",friendUUID);
+        userinfoMapper.insertFriendship(mysqlFriendship);
+        //被添加用户关系
+        mysqlFriendship.put("owner",friendUUID);
+        mysqlFriendship.put("friend",ownerUUID);
+        userinfoMapper.insertFriendship(mysqlFriendship);
 
         //添加环信好友
         EasemobRestAPIFactory factory = ClientContext.getInstance().init(ClientContext.INIT_FROM_PROPERTIES).getAPIFactory();
@@ -167,5 +179,15 @@ public class UserinfoService {
         return result;
     }
 
+    /**
+     * 获取好友列表
+     * @param ownerUUID
+     * @return
+     */
+    public List<Map> getMyFriendship(String ownerUUID){
+        Map myFriendship = new HashMap();
+        myFriendship.put("owner",ownerUUID);
+        return userinfoMapper.getMyFriendship(myFriendship);
+    }
 
 }

@@ -18,4 +18,18 @@ public interface UserinfoMapper {
      */
     int updateUserinfo(Map params);
 
+
+    /**
+     * 添加好友关系
+     * @param params
+     */
+    void insertFriendship(Map params);
+
+
+    /**
+     * 获取好友列表
+     * @param params
+     * @return
+     */
+    List<Map> getMyFriendship(Map params);
 }

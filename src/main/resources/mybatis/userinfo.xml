@@ -34,5 +34,13 @@
         WHERE uuid=#{uuid}
     </update>
 
+    <!--添加好友-->
+    <insert id="insertFriendship" parameterType="java.util.HashMap"  >
+        insert into friendship (owner ,friend) values (#{owner},#{friend})
+    </insert>
 
+    <!--获取好友列表-->
+    <select id="getMyFriendship" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+        select t1.`nickName`,t1.uuid,t1.`headSculpture` from userinfo t1 where t1.`uuid` in (select t.friend from friendship t where t.owner=#{owner})
+    </select>
 </mapper>
