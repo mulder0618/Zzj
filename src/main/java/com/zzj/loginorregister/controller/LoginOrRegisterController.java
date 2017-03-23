@@ -48,7 +48,7 @@ public class LoginOrRegisterController {
         else{
             result.put("result","success");
             result.put("msg","登录成功");
-            //result.put("userinfo",userinfo);
+            result.put("data",userinfo);
         }
         return result;
     }
