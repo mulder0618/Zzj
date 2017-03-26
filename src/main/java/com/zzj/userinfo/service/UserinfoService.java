@@ -68,10 +68,10 @@ public class UserinfoService {
             try {
                 bytes = headSculpture.getBytes();
                 String headName = uuid+"-head.jpg";
-                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMdd");
-                String datepackageName = simpleDateFormat.format(new Date());
-                headurlPath = headurl + datepackageName+"/"+headName;
-                File dest = new File(imgsavepath+datepackageName+"/"+headName);
+              /*  SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMdd");
+                String datepackageName = simpleDateFormat.format(new Date());*/
+                headurlPath = headurl +headName;
+                File dest = new File(imgsavepath+headName);
                 // 检测是否存在目录
                 if (!dest.getParentFile().exists()) {
                     dest.getParentFile().mkdirs();
