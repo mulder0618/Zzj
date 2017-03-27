@@ -12,6 +12,6 @@ import java.util.Map;
 public interface InfomationMapper {
 
 
-    List<Map> selectInformation(Map params);
+    List<Map> selectInformations(Map params);
 
 }

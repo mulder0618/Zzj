@@ -17,6 +17,16 @@ public class InfomationService {
     @Autowired
     private InfomationMapper infomationMapper;
 
-
+    /**
+     * 查询资讯
+     * @param type
+     * @return
+     */
+    public List<Map> getInformations(int type){
+        Map param = new HashMap();
+        param.put("type",type);
+        List<Map> result = infomationMapper.selectInformations(param);
+        return result;
+    }
 
 }

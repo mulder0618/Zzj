@@ -121,7 +121,7 @@ public class SignUtils implements Comparable<SignUtils> {
 
 
 
-    public  static  void main(String[] args){
+   /* public  static  void main(String[] args){
         //用于生成客户端生成签名
         Map map = new HashMap();
         map.put("mobile", "1861231");
@@ -132,5 +132,5 @@ public class SignUtils implements Comparable<SignUtils> {
         System.out.println(result);
         //map.put("sign", "3214123125465645654645654");
 
-    }
+    }*/
 }

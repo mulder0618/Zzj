@@ -20,7 +20,27 @@ public class InformationController {
     @Autowired
     InfomationService infomationService;
 
-
+    /**
+     * 查询资讯列表
+     * @param type 1文字资讯  2视频资讯
+     * @param sign
+     * @param request
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping("/getInformations")
+    public Object getInformations(
+            @RequestParam(value = "type", required = true) int type,
+            @RequestParam(value = "sign", required = true) String sign,
+            HttpServletRequest request
+    ) throws Exception {
+        Map result = new HashMap();
+        List<Map> informationList = infomationService.getInformations(type);
+        result.put("result","success");
+        result.put("msg","查询资讯成功");
+        result.put("data",informationList);
+        return result;
+    }
 
 
 }
