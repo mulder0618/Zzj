@@ -14,16 +14,21 @@
     <insert id="insertUserinfo" parameterType="java.util.HashMap">
         INSERT INTO userinfo
         (
-          nickName,createDate,status,loginName,userType,uuid
+          nickName,createDate,status,loginName,userType,uuid,studio
         )
         VALUES
         (
-          #{nickName},#{createDate},#{status},#{loginName},#{userType},#{uuid}
+          #{nickName},#{createDate},#{status},#{loginName},#{userType},#{uuid},#{studio}
         )
     </insert>
 
     <select id="getPhoneCode" parameterType="java.util.HashMap" resultType="java.lang.String">
         select t.content from smsinfo t where t.mobile=#{mobile} and t.status=1
+    </select>
+
+
+    <select id="selectAllStudio"  resultType="java.util.HashMap">
+        select * from studio t where t.status = 1
     </select>
 
 

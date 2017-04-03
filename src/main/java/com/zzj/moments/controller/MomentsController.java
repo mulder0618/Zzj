@@ -37,13 +37,14 @@ public class MomentsController {
     @RequestMapping("/sendMoment")
     public Object sendMoment(
             @RequestParam(value = "owner", required = true) String owner,
+            @RequestParam(value = "ownerNickname", required = true) String ownerNickname,
             @RequestParam(value = "message", required = true) String message,
             @RequestParam(value = "photos", required = true)  MultipartFile[] photos,
             @RequestParam(value = "sign", required = true) String sign,
             HttpServletRequest request
     ) throws Exception {
         Map result = new HashMap();
-        Moments moments = momentsService.setMoment(owner,message,photos);
+        Moments moments = momentsService.setMoment(owner,ownerNickname,message,photos);
         result.put("result","success");
         result.put("msg","发表朋友圈成功");
         result.put("data",moments);
@@ -68,13 +69,15 @@ public class MomentsController {
             @RequestParam(value = "momentsID", required = true) String momentsID,
             @RequestParam(value = "ownerUUID", required = true) String ownerUUID,
             @RequestParam(value = "commenterUUID", required = true) String commenterUUID,
+            @RequestParam(value = "commenterNickname", required = true) String commenterNickname,
             @RequestParam(value = "friendUUID", required = false) String friendUUID,
+            @RequestParam(value = "friendNickname", required = false) String friendNickname,
             @RequestParam(value = "message", required = true) String message,
             @RequestParam(value = "sign", required = true) String sign,
             HttpServletRequest request
     ) throws Exception {
         Map result = new HashMap();
-        momentsService.setMomentComment(momentsID,ownerUUID,commenterUUID,friendUUID,message);
+        momentsService.setMomentComment(momentsID,ownerUUID,commenterUUID, commenterNickname,friendUUID,friendNickname,message);
         result.put("result","success");
         result.put("msg","发表朋友圈评论成功");
         return result;

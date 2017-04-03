@@ -2,6 +2,8 @@ package com.zzj.loginorregister.mapper;
 
 import org.springframework.stereotype.Repository;
 
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -29,4 +31,10 @@ public interface LoginOrRegisterMapper {
      * @return
      */
     String getPhoneCode(Map parMap);
+
+    /**
+     * 获取所有工作室
+     * @return
+     */
+    List<Map> selectAllStudio();
 }

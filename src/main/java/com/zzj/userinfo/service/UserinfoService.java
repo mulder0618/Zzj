@@ -60,7 +60,9 @@ public class UserinfoService {
                               Object isRecommend,
                               String summary,
                               MultipartFile headSculpture,
-                              String sex){
+                              String sex,
+                              int studio
+    ){
         //上传头像图片
         String headurlPath = null;
         if(headSculpture!=null){
@@ -94,6 +96,7 @@ public class UserinfoService {
         userinfoParam.put("headSculpture",headurlPath);
         userinfoParam.put("sex",sex);
         userinfoParam.put("uuid",uuid);
+        userinfoParam.put("studio",studio);
         int result = userinfoMapper.updateUserinfo(userinfoParam);
         return userinfoParam;
     }

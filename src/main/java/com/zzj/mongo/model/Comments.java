@@ -16,7 +16,11 @@ public class Comments {
 
     private String commenterUUID;
 
+    private String commenterNickname;
+
     private String targetCommentUUID;
+
+    private String targetCommentNickname;
 
     private String message;
 
@@ -66,5 +70,21 @@ public class Comments {
 
     public void setMessage(String message) {
         this.message = message;
+    }
+
+    public String getCommenterNickname() {
+        return commenterNickname;
+    }
+
+    public void setCommenterNickname(String commenterNickname) {
+        this.commenterNickname = commenterNickname;
+    }
+
+    public String getTargetCommentNickname() {
+        return targetCommentNickname;
+    }
+
+    public void setTargetCommentNickname(String targetCommentNickname) {
+        this.targetCommentNickname = targetCommentNickname;
     }
 }

@@ -55,6 +55,7 @@ public class MomentsService {
      * @param message
      */
     public Moments setMoment(String owner,
+                             String ownerNickname,
                           String message,
                           MultipartFile[] photos
     ){
@@ -86,6 +87,7 @@ public class MomentsService {
         }
         Moments moments = new Moments();
         moments.setOwner(owner);
+        moments.setOwnerNickname(ownerNickname);
         moments.setMessage(message);
         moments.setImages(photoShowList);
         moments.setCreateDate(new Date());
@@ -102,7 +104,9 @@ public class MomentsService {
      * @param tragetCommenterUUID
      * @param message
      */
-    public void setMomentComment(String mementsID,String ownerUUID,String commenterUUID,String tragetCommenterUUID,String message){
+    public void setMomentComment(
+            String mementsID,String ownerUUID,String commenterUUID,String commentNickname,
+            String tragetCommenterUUID,String targetCommentNickname,String message){
         //查找好友交集
         Friendship ownerFriends = friendshipRepository.findByOwner(ownerUUID);
         Friendship commenterFriends = friendshipRepository.findByOwner(commenterUUID);
@@ -123,7 +127,9 @@ public class MomentsService {
         comments.setUserUUID(intersectionFriends);
         comments.setMomentsID(mementsID);
         comments.setCommenterUUID(commenterUUID);
+        comments.setCommenterNickname(commentNickname);
         comments.setTargetCommentUUID(tragetCommenterUUID);
+        comments.setTargetCommentNickname(targetCommentNickname);
         comments.setMessage(message);
         commentsRepository.insert(comments);
         //System.out.println(intersectionFriends);
@@ -157,6 +163,7 @@ public class MomentsService {
                 momentMap.put("photos",moment.getImages());
                 momentMap.put("message",moment.getMessage());
                 momentMap.put("momentOwner",moment.getOwner());
+                momentMap.put("momentUserNickname",moment.getOwnerNickname());
                 momentMap.put("createDate",moment.getCreateDate());
 
                 String momentID = moment.getId();
@@ -167,7 +174,9 @@ public class MomentsService {
                     for(Comments comments:commentes){
                         Map commentsMap = new HashMap();
                         commentsMap.put("commenterUUID",comments.getCommenterUUID());
+                        commentsMap.put("commenterNickname",comments.getCommenterNickname());
                         commentsMap.put("targetCommenterUUID",comments.getTargetCommentUUID());
+                        commentsMap.put("targetCommenterNickname",comments.getTargetCommentNickname());
                         commentsMap.put("message",comments.getMessage());
                         commentsList.add(commentsMap);
                     }

@@ -30,6 +30,9 @@
         <if test="sex != null">
             sex = #{sex},
         </if>
+            <if test="studio != null">
+                studio = #{studio},
+            </if>
         </set>
         WHERE uuid=#{uuid}
     </update>

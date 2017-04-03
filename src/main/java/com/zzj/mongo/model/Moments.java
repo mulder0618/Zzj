@@ -13,6 +13,8 @@ public class Moments {
 
     private String owner;
 
+    private String ownerNickname;
+
     private List<String> images;
 
     private String message;
@@ -57,6 +59,14 @@ public class Moments {
 
     public void setCreateDate(Date createDate) {
         this.createDate = createDate;
+    }
+
+    public String getOwnerNickname() {
+        return ownerNickname;
+    }
+
+    public void setOwnerNickname(String ownerNickname) {
+        this.ownerNickname = ownerNickname;
     }
 
     @Override

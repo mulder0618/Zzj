@@ -9,6 +9,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -76,6 +77,8 @@ public class LoginOrRegisterController {
             @RequestParam(value = "loginName", required = true) String loginName,
             @RequestParam(value = "identifyingCode", required = true) String identifyingCode,
             @RequestParam(value = "regType", required = true) String regType,
+            @RequestParam(value = "nickname", required = true) String nickname,
+            @RequestParam(value = "studio", required = false) String studio,
             @RequestParam(value = "sign", required = true) String sign,
             RedirectAttributes attr,
             HttpServletRequest request
@@ -88,7 +91,7 @@ public class LoginOrRegisterController {
             return result;
         }*/
         //保存数据
-        Map loginResult = loginOrRegisterService.setUserinfo(loginName,regType);
+        Map loginResult = loginOrRegisterService.setUserinfo(loginName,regType,nickname,studio);
         if(loginResult.get("operateStatus").equals("success")){
             result.put("result","success");
             result.put("msg","注册成功");
@@ -101,6 +104,23 @@ public class LoginOrRegisterController {
         return result;
     }
 
-
-
+    /**
+     * 获取工作室列表
+     * @param sign
+     * @param request
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping("/getAllStudio")
+    public Object getAllStudio(
+            @RequestParam(value = "sign", required = true) String sign,
+            HttpServletRequest request
+    )throws Exception {
+        Map result = new HashMap();
+        List<Map> studioList = loginOrRegisterService.getAllStudio();
+        result.put("result","success");
+        result.put("msg","获取工作室成功");
+        result.put("data",studioList);
+        return result;
+    }
 }
