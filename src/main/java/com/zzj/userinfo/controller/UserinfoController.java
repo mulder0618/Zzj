@@ -153,4 +153,26 @@ public class UserinfoController {
     }
 
 
+    /**
+     * 获取用户信息
+     * @param owner
+     * @param sign
+     * @param request
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping("/getUserinfo")
+    public Object getUserinfo(
+            @RequestParam(value = "owner", required = true) String owner,
+            @RequestParam(value = "sign", required = true) String sign,
+            HttpServletRequest request
+    ) throws Exception {
+        Map result = new HashMap();
+        Map userinfo = userinfoService.getUserinfo(owner);
+        result.put("result","success");
+        result.put("data",userinfo);
+        return result;
+    }
+
+
 }

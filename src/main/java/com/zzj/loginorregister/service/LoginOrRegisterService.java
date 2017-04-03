@@ -80,4 +80,33 @@ public class LoginOrRegisterService {
         IMUserAPI user = (IMUserAPI)factory.newInstance(EasemobRestAPIFactory.USER_CLASS);
         user.getIMUsersBatch(1L,"");
     }*/
+    /**
+     * 获取短信验证码
+     * @param mobile
+     * @return
+     */
+    public String getSmsContent(String mobile){
+        Map param = new HashMap();
+        param.put("mobile",mobile);
+        String smsContent = loginOrRegisterMapper.getPhoneCode(param);
+        return smsContent;
+    }
+
+
+    /**
+     * 判断短信内容是否正确 成功返回true 失败返回false
+     * @param userSmsContent
+     * @param mobile
+     * @return
+     */
+    public boolean isSmsVerify(String userSmsContent,String mobile){
+        String content = getSmsContent(mobile);
+        if(content.equals(userSmsContent)){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+
 }

@@ -38,9 +38,15 @@ public class LoginOrRegisterController {
             RedirectAttributes attr,
             HttpServletRequest request
     ) throws Exception {
-        //Todo 校验短信验证码
-        Map userinfo = loginOrRegisterService.getUserinfo(loginName);
         Map result = new HashMap();
+        //todo  上线前务必开启
+     /*   if(!loginOrRegisterService.isSmsVerify(identifyingCode,loginName)){
+            result.put("result","error");
+            result.put("msg","短信验证码错误");
+            return result;
+        }*/
+        Map userinfo = loginOrRegisterService.getUserinfo(loginName);
+
         if(userinfo==null){
             result.put("result","error");
             result.put("msg","无此用户");
@@ -74,10 +80,15 @@ public class LoginOrRegisterController {
             RedirectAttributes attr,
             HttpServletRequest request
     )throws Exception {
-        //Todo 校验短信验证码
+        Map result = new HashMap();
+        //todo  上线前务必开启
+      /*  if(!loginOrRegisterService.isSmsVerify(identifyingCode,loginName)){
+            result.put("result","error");
+            result.put("msg","短信验证码错误");
+            return result;
+        }*/
         //保存数据
         Map loginResult = loginOrRegisterService.setUserinfo(loginName,regType);
-        Map result = new HashMap();
         if(loginResult.get("operateStatus").equals("success")){
             result.put("result","success");
             result.put("msg","注册成功");

@@ -15,7 +15,7 @@ public interface MomentsRepository extends MongoRepository<Moments, String> {
 
     Moments findById(String id);
 
-    //Moments findByOwner(String owner);
+    List<Moments> findByOwner(String owner);
 
     Page<Moments> findByOwner(String owner,Pageable page) ;
 

@@ -8,8 +8,23 @@
     </select>
 
     <!--搜索技师-->
-    <select id="selectTechs" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+   <!-- <select id="selectTechs" parameterType="java.util.HashMap" resultType="java.util.HashMap">
         select * from userinfo t where  t.`status` = #{status} and t.nickName like  CONCAT('%',#{techName},'%') or loginName like  CONCAT('%',#{techName},'%')   and t.userType=1  limit #{currentPage},#{size}
+    </select>-->
+
+    <select id="selectTechs" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+        select * from (
+
+    select t.userType, t.status,t.loginName, t.`nickName`,t.uuid, t.`headSculpture`, 1 as isFriend from userinfo t where t.uuid in
+    (select friend from friendship t3 where t3.owner = #{owner})
+
+    union all
+
+    select t1.userType, t1.status,t1.loginName,t1.`nickName`,t1.uuid, t1.`headSculpture`, 0 as isFriend from userinfo t1 where t1.uuid not in
+     (select friend from friendship t4 where t4.owner = #{owner})
+
+    ) A where  A.`status` = '1' and  A.userType=1 and A.nickName like  CONCAT('%',#{techName},'%') or A.loginName like  CONCAT('%',#{techName},'%')  limit #{currentPage},#{size}
     </select>
+
 
 </mapper>

@@ -58,11 +58,12 @@ public class IndexController {
             @RequestParam(value = "currentPage", required = true) int currentPage,
             @RequestParam(value = "size", required = true) int size,
             @RequestParam(value = "techName", required = true) String techName,
+            @RequestParam(value = "owner", required = true) String owner,
             @RequestParam(value = "sign", required = true) String sign,
             HttpServletRequest request
     ) throws Exception {
         Map result = new HashMap();
-        List<Map> techs = indexService.getTechs(currentPage-1,size,techName);
+        List<Map> techs = indexService.getTechs(currentPage-1,size,techName,owner);
         result.put("result","success");
         result.put("msg","搜索技师技师成功");
         result.put("data",techs);

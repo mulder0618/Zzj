@@ -158,13 +158,14 @@ public class MomentsService {
                 momentMap.put("message",moment.getMessage());
                 momentMap.put("momentOwner",moment.getOwner());
                 momentMap.put("createDate",moment.getCreateDate());
-                Map commentsMap = new HashMap();
+
                 String momentID = moment.getId();
                 //从可见用户交集中取数据 没有则不显示
                 List<Comments> commentes = commentsRepository.findByUserUUIDAndMomentsID(userUUID,momentID);
                 if(commentes.size()!=0){
                     List<Map> commentsList = new ArrayList<>();
                     for(Comments comments:commentes){
+                        Map commentsMap = new HashMap();
                         commentsMap.put("commenterUUID",comments.getCommenterUUID());
                         commentsMap.put("targetCommenterUUID",comments.getTargetCommentUUID());
                         commentsMap.put("message",comments.getMessage());
@@ -210,6 +211,19 @@ public class MomentsService {
         pageInfo.put("total",momentses.getTotalPages());
         pageInfo.put("list",setMoments(momentses,userUUID));
         return pageInfo;
+    }
+
+
+
+    public List<Comments> queryMyReplyComments(String userUUID){
+        //通过uuid查找当前用户所有朋友圈id
+        List<Moments>  momentses =  momentsRepository.findByOwner(userUUID);
+        List listTotal = new ArrayList<>();
+        for(Moments moments : momentses){
+            List<Comments> list = commentsRepository.findByMomentsIDAndCommenterUUIDNot(moments.getId(),userUUID);
+            listTotal.add(list);
+        }
+        return listTotal;
     }
 
 }

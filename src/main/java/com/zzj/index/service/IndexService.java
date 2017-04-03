@@ -38,12 +38,13 @@ public class IndexService {
      * @param techName
      * @return
      */
-    public List<Map> getTechs(int currentPage,int size,String techName){
+    public List<Map> getTechs(int currentPage,int size,String techName,String owner){
         Map techsParam = new HashMap();
         techsParam.put("size",size);
         techsParam.put("currentPage",currentPage*size);
         techsParam.put("status",1);
         techsParam.put("techName",techName);
+        techsParam.put("owner",owner);
         List<Map> result = indexMapper.selectTechs(techsParam);
         return result;
     }

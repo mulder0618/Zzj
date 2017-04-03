@@ -22,4 +22,11 @@ public interface LoginOrRegisterMapper {
      * @param params
      */
     void insertUserinfo(Map params);
+
+    /**
+     * 查询短信信息
+     * @param parMap
+     * @return
+     */
+    String getPhoneCode(Map parMap);
 }

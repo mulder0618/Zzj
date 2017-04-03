@@ -50,4 +50,11 @@
         select t.uuid ,t.`nickName`, t.`headSculpture` from userinfo t where t.`nickName` like CONCAT('%',#{nikcName},'%')  or t.`loginName`  like CONCAT('%',#{loginName},'%')
     </select>
 
+
+    <!--获取用户信息-->
+    <select id="getUserInfo" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+        select * from userinfo t1 where t1.`uuid` = #{owner}
+    </select>
+
+
 </mapper>

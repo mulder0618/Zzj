@@ -204,5 +204,16 @@ public class UserinfoService {
     }
 
 
+    /**
+     * 获取用户信息
+     * @param owner
+     * @return
+     */
+    public Map getUserinfo(String owner){
+        Map search = new HashMap();
+        search.put("owner",owner);
+        return userinfoMapper.getUserInfo(search);
+    }
+
 
 }

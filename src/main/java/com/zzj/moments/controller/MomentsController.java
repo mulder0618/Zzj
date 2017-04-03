@@ -160,4 +160,19 @@ public class MomentsController {
         return result;
     }
 
+    @RequestMapping("/queryMyReplyComments")
+    public Object queryMyReplyComments(
+            @RequestParam(value = "userUUID", required = true) String userUUID,
+            @RequestParam(value = "sign", required = true) String sign,
+            HttpServletRequest request
+    ) throws Exception {
+        Map result = new HashMap();
+        List<Comments> commentses =  momentsService.queryMyReplyComments(userUUID);
+        result.put("result","success");
+        result.put("msg","查询回复我的评论成功");
+        result.put("data",commentses);
+        return result;
+    }
+
+
 }

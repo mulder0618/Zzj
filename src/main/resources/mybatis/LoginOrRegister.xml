@@ -22,4 +22,9 @@
         )
     </insert>
 
+    <select id="getPhoneCode" parameterType="java.util.HashMap" resultType="java.lang.String">
+        select t.content from smsinfo t where t.mobile=#{mobile} and t.status=1
+    </select>
+
+
 </mapper>

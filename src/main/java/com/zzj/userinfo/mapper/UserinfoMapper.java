@@ -40,4 +40,12 @@ public interface UserinfoMapper {
      */
     List<Map> searchFriend(Map params);
 
+
+    /**
+     * 获取当前用户信息
+     * @param params
+     * @return
+     */
+    Map getUserInfo(Map params);
+
 }

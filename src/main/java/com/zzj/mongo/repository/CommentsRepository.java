@@ -15,4 +15,6 @@ public interface CommentsRepository extends MongoRepository<Comments, String> {
 
     List<Comments> findByUserUUIDAndMomentsID(String userUUID, String momentsID);
 
+    List<Comments> findByMomentsIDAndCommenterUUIDNot(String momentsID,String uuid);
+
 }
