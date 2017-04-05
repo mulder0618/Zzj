@@ -27,4 +27,8 @@
     </select>
 
 
+    <select id="selectAndroidInfo"  resultType="java.util.HashMap">
+        select * from android_info t order by t.`create_time` desc limit 1
+    </select>
+
 </mapper>

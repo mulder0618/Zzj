@@ -72,5 +72,19 @@ public class IndexController {
 
 
 
+    @RequestMapping("/getAndroidInfo")
+    public Object getAndroidInfo(
+            @RequestParam(value = "sign", required = true) String sign,
+            HttpServletRequest request
+    ) throws Exception {
+        Map result = new HashMap();
+        Map info = indexService.getAndroidInfo();
+        result.put("result","success");
+        result.put("msg","获取安卓更新信息成功");
+        result.put("data",info);
+        return result;
+    }
+
+
 
 }

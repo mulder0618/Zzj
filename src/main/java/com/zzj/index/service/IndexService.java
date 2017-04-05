@@ -50,4 +50,12 @@ public class IndexService {
     }
 
 
+    /**
+     * 获取安卓更新信息
+     * @return
+     */
+    public Map getAndroidInfo(){
+        return indexMapper.selectAndroidInfo();
+    }
+
 }

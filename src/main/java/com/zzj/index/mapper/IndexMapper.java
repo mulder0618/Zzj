@@ -26,4 +26,6 @@ public interface IndexMapper {
     List<Map> selectTechs(Map params);
 
 
+    Map selectAndroidInfo();
+
 }
