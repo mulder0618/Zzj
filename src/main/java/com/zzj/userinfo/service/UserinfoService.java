@@ -61,7 +61,7 @@ public class UserinfoService {
                               String summary,
                               MultipartFile headSculpture,
                               String sex,
-                              int studio
+                              String studio
     ){
         //上传头像图片
         String headurlPath = null;

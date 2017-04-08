@@ -50,7 +50,7 @@ public class UserinfoController {
             @RequestParam(value = "summary", required = false) String summary,
             @RequestParam(value = "headSculpture",required = false) MultipartFile headSculpture,
             @RequestParam(value = "sex", required = false) String sex,
-            @RequestParam(value = "studio", required = false) int studio,
+            @RequestParam(value = "studio", required = false) String studio,
             @RequestParam(value = "sign", required = true) String sign,
             HttpServletRequest request
     ) throws Exception {
