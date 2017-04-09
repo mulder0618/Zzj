@@ -56,7 +56,7 @@
 
     <!--获取用户信息-->
     <select id="getUserInfo" parameterType="java.util.HashMap" resultType="java.util.HashMap">
-        select * from userinfo t , studio t1 where t.studio = t1.id and t.userType = 1 and t.`uuid` = #{owner}
+         select t.*,(select t1.title from  studio t1 where t.studio = t1.id  ) as studioTitle from userinfo t  where t.`uuid` = #{owner}
     </select>
 
     <!--获取服务列表信息-->

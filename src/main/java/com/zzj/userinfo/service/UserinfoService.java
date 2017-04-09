@@ -98,7 +98,11 @@ public class UserinfoService {
         userinfoParam.put("uuid",uuid);
         userinfoParam.put("studio",studio);
         int result = userinfoMapper.updateUserinfo(userinfoParam);
-        return userinfoParam;
+
+        Map userinfoQuery =  new HashMap();
+        userinfoQuery.put("owner",uuid);
+        Map reultMap = userinfoMapper.getUserInfo(userinfoQuery);
+        return reultMap;
     }
 
     /**
