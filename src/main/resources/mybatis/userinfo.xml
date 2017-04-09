@@ -59,5 +59,15 @@
         select * from userinfo t , studio t1 where t.studio = t1.id and t.userType = 1 and t.`uuid` = #{owner}
     </select>
 
+    <!--获取服务列表信息-->
+    <select id="getService" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+        select * from service where status = 1
+    </select>
+
+
+    <!--预约-->
+    <insert id="insertSubscribe" parameterType="java.util.HashMap"  >
+        insert into subscribe (userUuid ,techUuid,startDate,endDate,service,status) values (#{userUuid},#{techUuid},#{startDate},#{endDate},#{service},#{status})
+    </insert>
 
 </mapper>

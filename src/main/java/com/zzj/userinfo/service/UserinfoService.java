@@ -218,5 +218,34 @@ public class UserinfoService {
         return userinfoMapper.getUserInfo(search);
     }
 
+    /**
+     * 获取服务列表
+     * @param techUuid
+     * @return
+     */
+    public List<Map> getService(String techUuid){
+        Map search = new HashMap();
+        search.put("techUuid",techUuid);
+        return userinfoMapper.getService(search);
+    }
+
+    /**
+     * 预约
+     * @param userUuid
+     * @param techUuid
+     * @param startDate
+     * @param endDate
+     * @param service
+     */
+    public void subScribe(String userUuid,String techUuid,String startDate,String endDate,String service){
+        Map subscribe = new HashMap();
+        subscribe.put("userUuid",userUuid);
+        subscribe.put("techUuid",techUuid);
+        subscribe.put("startDate",startDate);
+        subscribe.put("endDate",endDate);
+        subscribe.put("service",service);
+        subscribe.put("status",1);
+        userinfoMapper.insertSubscribe(subscribe);
+    }
 
 }

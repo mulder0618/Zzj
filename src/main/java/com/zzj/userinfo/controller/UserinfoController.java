@@ -176,4 +176,53 @@ public class UserinfoController {
     }
 
 
+    /**
+     * 获取服务列表
+     * @param techUuid
+     * @param sign
+     * @param request
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping("/getService")
+    public Object getService(
+            @RequestParam(value = "techUuid", required = true) String techUuid,
+            @RequestParam(value = "sign", required = true) String sign,
+            HttpServletRequest request
+    ) throws Exception {
+        Map result = new HashMap();
+        List<Map> serviceList = userinfoService.getService(techUuid);
+        result.put("result","success");
+        result.put("data",serviceList);
+        return result;
+    }
+
+
+    /**
+     * 预约
+     * @param userUuid
+     * @param techUuid
+     * @param startDate
+     * @param endDate
+     * @param service
+     * @param sign
+     * @param request
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping("/subscribe")
+    public Object subscribe(
+            @RequestParam(value = "userUuid", required = true) String userUuid,
+            @RequestParam(value = "techUuid", required = true) String techUuid,
+            @RequestParam(value = "startDate", required = true) String startDate,
+            @RequestParam(value = "endDate", required = false) String endDate,
+            @RequestParam(value = "service", required = true) String service,
+            @RequestParam(value = "sign", required = true) String sign,
+            HttpServletRequest request
+    ) throws Exception {
+        Map result = new HashMap();
+        userinfoService.subScribe(userUuid,techUuid,startDate,endDate,service);
+        result.put("result","success");
+        return result;
+    }
 }

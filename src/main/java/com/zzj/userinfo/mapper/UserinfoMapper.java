@@ -48,4 +48,19 @@ public interface UserinfoMapper {
      */
     Map getUserInfo(Map params);
 
+    /**
+     * 获取服务列表
+     * @param params
+     * @return
+     */
+    List<Map> getService(Map params);
+
+
+    /**
+     * 预约
+     * @param params
+     */
+    void insertSubscribe(Map params);
+
+
 }
