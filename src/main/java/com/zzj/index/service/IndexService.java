@@ -4,6 +4,7 @@ import com.zzj.index.mapper.IndexMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -58,4 +59,22 @@ public class IndexService {
         return indexMapper.selectAndroidInfo();
     }
 
+    /**
+     * 更新安卓信息
+     * @param versionCode
+     * @param versionName
+     * @param isForce
+     * @param apkUrl
+     * @return
+     */
+    public Map setAndroidInfo(String versionCode,String versionName,String isForce,String apkUrl){
+        Map param = new HashMap();
+        param.put("versionCode",versionCode);
+        param.put("versionName",versionName);
+        param.put("isForce",isForce);
+        param.put("apkUrl",apkUrl);
+        param.put("createTime",new Date());
+        indexMapper.setAndroidInfo(param);
+        return param;
+    }
 }

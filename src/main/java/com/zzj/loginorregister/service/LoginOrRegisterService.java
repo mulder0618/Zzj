@@ -63,6 +63,7 @@ public class LoginOrRegisterService {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("ss");
         String second = simpleDateFormat.format(new Date());
         String userUUID = UUIDUtils.generateShortUuid()+second;
+        userUUID = userUUID.toLowerCase();
         loginParam.put("loginName",loginName);
         loginParam.put("status",1);
         loginParam.put("createDate",new Date());

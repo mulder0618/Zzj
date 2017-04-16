@@ -28,4 +28,11 @@ public interface IndexMapper {
 
     Map selectAndroidInfo();
 
+
+    /**
+     * 更新安卓配置
+     * @param params
+     */
+    void setAndroidInfo(Map params);
+
 }

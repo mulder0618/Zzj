@@ -85,6 +85,23 @@ public class IndexController {
         return result;
     }
 
+    @RequestMapping("/setAndroidInfo")
+    public Object getAndroidInfo(
+            @RequestParam(value = "versionCode", required = true) String versionCode,
+            @RequestParam(value = "versionName", required = true) String versionName,
+            @RequestParam(value = "isForce", required = true) String isForce,
+            @RequestParam(value = "apkUrl", required = false) String apkUrl,
+            @RequestParam(value = "sign", required = true) String sign,
+            HttpServletRequest request
+    ) throws Exception {
+        Map result = new HashMap();
+        Map info = indexService.setAndroidInfo(versionCode,versionName,isForce,apkUrl);
+        result.put("result","success");
+        result.put("msg","安卓更新信息成功");
+        result.put("data",info);
+        return result;
+    }
+
 
 
 }

@@ -31,4 +31,9 @@
         select * from android_info t order by t.`create_time` desc limit 1
     </select>
 
+    <insert id="setAndroidInfo" parameterType="java.util.HashMap" >
+      insert into android_info (version_code,version_name,is_force,apk_url,create_time) values (#{versionCode},#{versionName},#{isForce},#{apkUrl},#{createTime})
+    </insert>
+
+
 </mapper>
