@@ -67,12 +67,13 @@ public class IndexService {
      * @param apkUrl
      * @return
      */
-    public Map setAndroidInfo(String versionCode,String versionName,String isForce,String apkUrl){
+    public Map setAndroidInfo(String versionCode,String versionName,String isForce,String apkUrl,String description){
         Map param = new HashMap();
         param.put("versionCode",versionCode);
         param.put("versionName",versionName);
         param.put("isForce",isForce);
         param.put("apkUrl",apkUrl);
+        param.put("description",description);
         param.put("createTime",new Date());
         indexMapper.setAndroidInfo(param);
         return param;

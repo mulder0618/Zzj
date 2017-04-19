@@ -91,11 +91,12 @@ public class IndexController {
             @RequestParam(value = "versionName", required = true) String versionName,
             @RequestParam(value = "isForce", required = true) String isForce,
             @RequestParam(value = "apkUrl", required = false) String apkUrl,
+            @RequestParam(value = "description", required = true) String description,
             @RequestParam(value = "sign", required = true) String sign,
             HttpServletRequest request
     ) throws Exception {
         Map result = new HashMap();
-        Map info = indexService.setAndroidInfo(versionCode,versionName,isForce,apkUrl);
+        Map info = indexService.setAndroidInfo(versionCode,versionName,isForce,apkUrl,description);
         result.put("result","success");
         result.put("msg","安卓更新信息成功");
         result.put("data",info);

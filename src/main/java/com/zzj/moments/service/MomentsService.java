@@ -61,6 +61,7 @@ public class MomentsService {
     ){
         String headurlPath = null;
         List<String> photoShowList = new ArrayList<>();
+        System.out.println("start:"+System.currentTimeMillis());
         if(photos.length!=0){
             for(MultipartFile photo:photos){
                 byte[] bytes = new byte[0];
@@ -85,6 +86,8 @@ public class MomentsService {
                 }
             }
         }
+        System.out.println("end:"+System.currentTimeMillis());
+        System.out.println("mongostart:"+System.currentTimeMillis());
         Moments moments = new Moments();
         moments.setOwner(owner);
         moments.setOwnerNickname(ownerNickname);
@@ -92,6 +95,7 @@ public class MomentsService {
         moments.setImages(photoShowList);
         moments.setCreateDate(new Date());
         momentsRepository.insert(moments);
+        System.out.println("mongoend:"+System.currentTimeMillis());
         return moments;
     }
 
