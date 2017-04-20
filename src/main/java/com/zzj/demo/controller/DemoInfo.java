@@ -1,27 +1,29 @@
 package com.zzj.demo.controller;
 
+import com.zzj.mongo.model.Comments;
 import com.zzj.mongo.model.Moments;
+import com.zzj.mongo.repository.CommentsRepository;
 import com.zzj.mongo.repository.MomentsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by mulder on 2017/2/14.
  */
 @Controller
 public class DemoInfo {
-/*
+
     @Autowired
     MomentsRepository momentsRepository;
 
+    @Autowired
+    CommentsRepository commentsRepository;
 
+/*
     public void testInsert(){
         Moments moments = new Moments();
         moments.setOwner("FFDS-11-HHH");
@@ -55,13 +57,22 @@ public class DemoInfo {
     }
 
 
+    */
     @RequestMapping("/testmongoinsert")
     public String testmongo(){
-        this.testInsert();
+        //this.testInsert();
+        List<Comments> commentses = commentsRepository.findByMomentsOwner("hlqyughw34");
+        for(Comments comment : commentses){
+            Set<String> userUUIDs = comment.getUserUUID();
+            userUUIDs.add("2");  //添加好友可见
+            comment.setUserUUID(userUUIDs);
+            commentsRepository.save(comment);
+        }
         return null;
     }
 
 
+    /*
     @RequestMapping("/testmongoselect")
     public String testmongoselect(){
         Moments moments = this.testSelect();

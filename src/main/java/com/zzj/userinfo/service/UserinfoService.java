@@ -1,7 +1,9 @@
 package com.zzj.userinfo.service;
 
+import com.zzj.mongo.model.Comments;
 import com.zzj.mongo.model.Friendship;
 import com.zzj.mongo.model.Moments;
+import com.zzj.mongo.repository.CommentsRepository;
 import com.zzj.mongo.repository.FriendshipRepository;
 import com.zzj.mongo.repository.MomentsRepository;
 import com.zzj.userinfo.mapper.UserinfoMapper;
@@ -33,6 +35,9 @@ public class UserinfoService {
 
     @Autowired
     FriendshipRepository friendshipRepository;
+
+    @Autowired
+    CommentsRepository commentsRepository;
 
     @Value("${imgsavepath}")
     private String imgsavepath;
@@ -144,6 +149,24 @@ public class UserinfoService {
         Friendship friendship2 = friendshipRepository.findByOwner(friendUUID);
         friendship2 = setFriendShip(friendUUID,ownerUUID,friendship2);
         friendshipRepository.save(friendship2);
+
+        //----------评论部分可见
+        List<Comments> commentses = commentsRepository.findByMomentsOwner(ownerUUID);
+        for(Comments comment : commentses){
+            Set<String> userUUIDs = comment.getUserUUID();
+            userUUIDs.add(friendUUID);  //添加好友可见
+            comment.setUserUUID(userUUIDs);
+            commentsRepository.save(comment);
+        }
+
+        List<Comments> commentsesFriend = commentsRepository.findByMomentsOwner(friendUUID);
+        for(Comments comment : commentsesFriend){
+            Set<String> userUUIDs = comment.getUserUUID();
+            userUUIDs.add(ownerUUID);  //添加好友可见
+            comment.setUserUUID(userUUIDs);
+            commentsRepository.save(comment);
+        }
+
 
         //-------mysql 部分
         //当前用户添加

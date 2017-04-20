@@ -10,6 +10,8 @@ public class Comments {
     @Id
     private String id;
 
+    private String momentsOwner;
+
     private Set<String> userUUID;
 
     private String momentsID;
@@ -86,5 +88,13 @@ public class Comments {
 
     public void setTargetCommentNickname(String targetCommentNickname) {
         this.targetCommentNickname = targetCommentNickname;
+    }
+
+    public String getMomentsOwner() {
+        return momentsOwner;
+    }
+
+    public void setMomentsOwner(String momentsOwner) {
+        this.momentsOwner = momentsOwner;
     }
 }

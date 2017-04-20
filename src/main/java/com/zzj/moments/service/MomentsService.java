@@ -128,6 +128,7 @@ public class MomentsService {
         intersectionFriends.add(ownerUUID);
         intersectionFriends.add(commenterUUID);
         Comments comments = new Comments();
+        comments.setMomentsOwner(ownerUUID);
         comments.setUserUUID(intersectionFriends);
         comments.setMomentsID(mementsID);
         comments.setCommenterUUID(commenterUUID);
