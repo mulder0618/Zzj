@@ -8,6 +8,7 @@ import com.zzj.mongo.model.Moments;
 import com.zzj.mongo.repository.CommentsRepository;
 import com.zzj.mongo.repository.FriendshipRepository;
 import com.zzj.mongo.repository.MomentsRepository;
+import com.zzj.userinfo.service.UserinfoService;
 import com.zzj.utils.MapUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -49,6 +50,9 @@ public class MomentsService {
     @Value("${momentsphotourl}")
     private String momentsphotourl;
 
+    @Autowired
+    UserinfoService userinfoService;
+
     /**
      * 发表朋友圈
      * @param owner
@@ -61,7 +65,6 @@ public class MomentsService {
     ){
         String headurlPath = null;
         List<String> photoShowList = new ArrayList<>();
-        System.out.println("start:"+System.currentTimeMillis());
         if(photos.length!=0){
             for(MultipartFile photo:photos){
                 byte[] bytes = new byte[0];
@@ -86,16 +89,16 @@ public class MomentsService {
                 }
             }
         }
-        System.out.println("end:"+System.currentTimeMillis());
-        System.out.println("mongostart:"+System.currentTimeMillis());
         Moments moments = new Moments();
         moments.setOwner(owner);
         moments.setOwnerNickname(ownerNickname);
         moments.setMessage(message);
         moments.setImages(photoShowList);
         moments.setCreateDate(new Date());
+        //获取用户头像
+        Map userInfo = userinfoService.getUserinfo(owner);
+        moments.setOwnerHead(userInfo.get("headSculpture").toString());
         momentsRepository.insert(moments);
-        System.out.println("mongoend:"+System.currentTimeMillis());
         return moments;
     }
 
@@ -169,6 +172,7 @@ public class MomentsService {
                 momentMap.put("message",moment.getMessage());
                 momentMap.put("momentOwner",moment.getOwner());
                 momentMap.put("momentUserNickname",moment.getOwnerNickname());
+                momentMap.put("momentOwnerHead",moment.getOwnerHead());
                 momentMap.put("createDate",moment.getCreateDate());
 
                 String momentID = moment.getId();

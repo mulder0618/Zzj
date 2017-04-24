@@ -40,6 +40,9 @@ public class UserinfoService {
     @Autowired
     CommentsRepository commentsRepository;
 
+    @Autowired
+    MomentsRepository momentsRepository;
+
     @Value("${imgsavepath}")
     private String imgsavepath;
 
@@ -69,6 +72,8 @@ public class UserinfoService {
                               String sex,
                               String studio
     ){
+
+        Map userinfoParam = new HashMap();
         //上传头像图片
         String headurlPath = null;
         if(headSculpture!=null){
@@ -97,18 +102,27 @@ public class UserinfoService {
                         new BufferedOutputStream(new FileOutputStream(destNew));
                 stream.write(bytes);
                 stream.close();
+
+                userinfoParam.put("headSculpture",headurlPath);
             } catch (IOException e) {
                 e.printStackTrace();
             }
+
+            //同步修改所有头像调用
+            List<Moments> momentses = momentsRepository.findByOwner(uuid);
+            for(Moments moments : momentses){
+                moments.setOwnerHead(headurlPath);
+                momentsRepository.save(moments);
+            }
         }
-        Map userinfoParam = new HashMap();
+
         userinfoParam.put("nickName",nickName);
         userinfoParam.put("status",status);
         userinfoParam.put("userType",userType);
         userinfoParam.put("level",level);
         userinfoParam.put("isRecommend",isRecommend);
         userinfoParam.put("summary",summary);
-        userinfoParam.put("headSculpture",headurlPath);
+
         userinfoParam.put("sex",sex);
         userinfoParam.put("uuid",uuid);
         userinfoParam.put("studio",studio);
