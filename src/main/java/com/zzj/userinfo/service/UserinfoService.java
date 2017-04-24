@@ -75,16 +75,22 @@ public class UserinfoService {
             try {
                 bytes = headSculpture.getBytes();
                 String headName = uuid+"-head.jpg";
-              /*  SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMdd");
-                String datepackageName = simpleDateFormat.format(new Date());*/
-                headurlPath = headurl +headName;
+                //headurlPath = headurl +headName;
                 File dest = new File(imgsavepath+headName);
+                //删除已有头像
+                dest.delete();
+                //生成新头像
+                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMdd");
+                String datepackageName = simpleDateFormat.format(new Date());
+                String newheadName = uuid+datepackageName+"-head.jpg";
+                headurlPath = headurl +newheadName;
+                File destNew = new File(imgsavepath+newheadName);
                 // 检测是否存在目录
-                if (!dest.getParentFile().exists()) {
-                    dest.getParentFile().mkdirs();
+                if (!destNew.getParentFile().exists()) {
+                    destNew.getParentFile().mkdirs();
                 }
                 BufferedOutputStream stream =
-                        new BufferedOutputStream(new FileOutputStream(dest));
+                        new BufferedOutputStream(new FileOutputStream(destNew));
                 stream.write(bytes);
                 stream.close();
             } catch (IOException e) {
