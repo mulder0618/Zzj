@@ -50,7 +50,7 @@
 
     <!--查找好友列表-->
     <select id="searchFriend" parameterType="java.util.HashMap" resultType="java.util.HashMap">
-        select t.uuid ,t.`nickName`, t.`headSculpture` from userinfo t where t.`nickName` like CONCAT('%',#{nikcName},'%')  or t.`loginName`  like CONCAT('%',#{loginName},'%')
+        select t.uuid ,t.`nickName`, t.`headSculpture` from userinfo t where t.`nickName` like CONCAT('%',#{nikcName},'%')  or t.`loginName`  like CONCAT('%',#{loginName},'%') and t.status = 1
     </select>
 
 

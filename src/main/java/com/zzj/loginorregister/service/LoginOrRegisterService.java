@@ -65,7 +65,12 @@ public class LoginOrRegisterService {
         String userUUID = UUIDUtils.generateShortUuid()+second;
         userUUID = userUUID.toLowerCase();
         loginParam.put("loginName",loginName);
-        loginParam.put("status",1);
+        if("1".equals(userType)){   //技师用户 设置为审核状态
+            loginParam.put("status",2);
+        }
+        else{
+            loginParam.put("status",1);
+        }
         loginParam.put("createDate",new Date());
         loginParam.put("userType",userType);
         loginParam.put("nickName",nickname);
