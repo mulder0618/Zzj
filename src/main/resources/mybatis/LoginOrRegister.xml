@@ -14,11 +14,11 @@
     <insert id="insertUserinfo" parameterType="java.util.HashMap">
         INSERT INTO userinfo
         (
-          nickName,createDate,status,loginName,userType,uuid,studio
+          nickName,createDate,status,loginName,userType,uuid,studio,headSculpture
         )
         VALUES
         (
-          #{nickName},#{createDate},#{status},#{loginName},#{userType},#{uuid},#{studio}
+          #{nickName},#{createDate},#{status},#{loginName},#{userType},#{uuid},#{studio},#{headSculpture}
         )
     </insert>
 

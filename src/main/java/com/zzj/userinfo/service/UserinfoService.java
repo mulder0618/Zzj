@@ -7,6 +7,7 @@ import com.zzj.mongo.repository.CommentsRepository;
 import com.zzj.mongo.repository.FriendshipRepository;
 import com.zzj.mongo.repository.MomentsRepository;
 import com.zzj.userinfo.mapper.UserinfoMapper;
+import com.zzj.utils.UUIDUtils;
 import com.zzj.utils.chat.ClientContext;
 import com.zzj.utils.chat.EasemobRestAPIFactory;
 import com.zzj.utils.chat.api.IMUserAPI;
@@ -73,16 +74,19 @@ public class UserinfoService {
         if(headSculpture!=null){
             byte[] bytes = new byte[0];
             try {
+                Map userinfo = getUserinfo(uuid);
                 bytes = headSculpture.getBytes();
-                String headName = uuid+"-head.jpg";
-                //headurlPath = headurl +headName;
+                //String headName = uuid+"-head.jpg";
+                String headUrl = userinfo.get("headSculpture").toString();
+                String headName = headUrl.substring(headUrl.indexOf("heads/")+6,headUrl.length());
                 File dest = new File(imgsavepath+headName);
-                //删除已有头像
+                //删除默认已有头像
                 dest.delete();
                 //生成新头像
-                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMdd");
+              /*  SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMdd");
                 String datepackageName = simpleDateFormat.format(new Date());
-                String newheadName = uuid+datepackageName+"-head.jpg";
+*/              String random = UUIDUtils.generateShortUuid();
+                String newheadName = uuid+random+"-head.jpg";
                 headurlPath = headurl +newheadName;
                 File destNew = new File(imgsavepath+newheadName);
                 // 检测是否存在目录

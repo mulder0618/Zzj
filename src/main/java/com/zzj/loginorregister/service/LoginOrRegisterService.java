@@ -76,30 +76,6 @@ public class LoginOrRegisterService {
         loginParam.put("nickName",nickname);
         loginParam.put("studio",studio);
         loginParam.put("uuid",userUUID);
-        try {
-            loginOrRegisterMapper.insertUserinfo(loginParam);
-        }
-        catch(Exception e){
-            //用户名重复错误
-            if(e.getMessage().contains("loginName_unique")){
-                loginParam.put("operateStatus","error");
-                loginParam.put("msg","用户名已经注册");
-            }
-            return loginParam;
-        }
-        //mongo设置默认好友 防止当前用户无好友时空指针
-        Friendship friendship = new Friendship();
-        friendship.setOwner(userUUID);
-        Set<String> friends = new HashSet();
-        friends.add("init");
-        friendship.setFriends(friends);
-        friendshipRepository.save(friendship);
-        //注册环信
-        EasemobRestAPIFactory factory = ClientContext.getInstance().init(ClientContext.INIT_FROM_PROPERTIES).getAPIFactory();
-        IMUserAPI user = (IMUserAPI)factory.newInstance(EasemobRestAPIFactory.USER_CLASS);
-        BodyWrapper userBody = new IMUserBody(userUUID, "123456", "");
-        user.createNewIMUserSingle(userBody);
-        loginParam.put("operateStatus","success");
 
         //设置默认头像
 
@@ -132,6 +108,34 @@ public class LoginOrRegisterService {
                 e.printStackTrace();
             }
         }
+
+        loginParam.put("headSculpture",headurlPath);
+        try {
+            loginOrRegisterMapper.insertUserinfo(loginParam);
+        }
+        catch(Exception e){
+            //用户名重复错误
+            if(e.getMessage().contains("loginName_unique")){
+                loginParam.put("operateStatus","error");
+                loginParam.put("msg","用户名已经注册");
+            }
+            return loginParam;
+        }
+        //mongo设置默认好友 防止当前用户无好友时空指针
+        Friendship friendship = new Friendship();
+        friendship.setOwner(userUUID);
+        Set<String> friends = new HashSet();
+        friends.add("init");
+        friendship.setFriends(friends);
+        friendshipRepository.save(friendship);
+        //注册环信
+        EasemobRestAPIFactory factory = ClientContext.getInstance().init(ClientContext.INIT_FROM_PROPERTIES).getAPIFactory();
+        IMUserAPI user = (IMUserAPI)factory.newInstance(EasemobRestAPIFactory.USER_CLASS);
+        BodyWrapper userBody = new IMUserBody(userUUID, "123456", "");
+        user.createNewIMUserSingle(userBody);
+        loginParam.put("operateStatus","success");
+
+
         return  loginParam;
     }
 
